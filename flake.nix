@@ -24,8 +24,13 @@
       };
 
       devShells = forEachSupportedSystem ({ pkgs }: {
-        default =
-          pkgs.mkShell { packages = with pkgs; [ scala_2_12 jdk maven ]; };
+        default = pkgs.mkShell {
+          packages = with pkgs; [ spark hadoop scala_2_12 jdk maven ];
+          shellHook = ''
+            export SPARK_HOME=${pkgs.spark}
+            export HADOOP_HOME=${pkgs.hadoop}
+          '';
+        };
       });
     };
 }
